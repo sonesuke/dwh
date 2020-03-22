@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: cutomer
+    description: "customer model"
+    columns:
+      - name: salesforce_id
+        description: "salesforce id"
+        tests:
+          - unique
+          - not_null
+      - name: id
+        description: "surrogate key"
+        tests:
+          - unique
+          - not_null

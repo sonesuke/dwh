@@ -1,0 +1,78 @@
+in:
+  type: salesforce_bulk
+  userName: {{ env.SALESFORCE_USER }}
+  password: {{ env.SALESFORCE_PASSWORD }}{{ env.SALESFORCE_TOKEN }}
+  authEndpointUrl: https://login.salesforce.com/services/Soap/u/39.0
+  objectType: Lead
+  pollingIntervalMillisecond: 5000
+  querySelectFrom: SELECT Id,IsDeleted,MasterRecordId,LastName,FirstName,Salutation,Name,Title,Company,Street,City,State,PostalCode,Country,Latitude,Longitude,GeocodeAccuracy,Phone,MobilePhone,Fax,Email,Website,PhotoUrl,Description,LeadSource,Status,Industry,Rating,AnnualRevenue,NumberOfEmployees,OwnerId,IsConverted,ConvertedDate,ConvertedAccountId,ConvertedContactId,ConvertedOpportunityId,IsUnreadByOwner,CreatedDate,CreatedById,LastModifiedDate,LastModifiedById,SystemModstamp,LastActivityDate,LastViewedDate,LastReferencedDate,Jigsaw,JigsawContactId,CleanStatus,CompanyDunsNumber,DandbCompanyId,EmailBouncedReason,EmailBouncedDate,SICCode__c,ProductInterest__c,Primary__c,CurrentGenerators__c,NumberofLocations__c FROM Lead
+  columns:
+    - {type: string, name: Id}
+    - {type: boolean, name: IsDeleted}
+    - {type: string, name: MasterRecordId}
+    - {type: string, name: LastName}
+    - {type: string, name: FirstName}
+    - {type: string, name: Salutation}
+    - {type: string, name: Name}
+    - {type: string, name: Title}
+    - {type: string, name: Company}
+    - {type: string, name: Street}
+    - {type: string, name: City}
+    - {type: string, name: State}
+    - {type: string, name: PostalCode}
+    - {type: string, name: Country}
+    - {type: double, name: Latitude}
+    - {type: double, name: Longitude}
+    - {type: string, name: GeocodeAccuracy}
+    - {type: string, name: Phone}
+    - {type: string, name: MobilePhone}
+    - {type: string, name: Fax}
+    - {type: string, name: Email}
+    - {type: string, name: Website}
+    - {type: string, name: PhotoUrl}
+    - {type: string, name: Description}
+    - {type: string, name: LeadSource}
+    - {type: string, name: Status}
+    - {type: string, name: Industry}
+    - {type: string, name: Rating}
+    - {type: string, name: AnnualRevenue}
+    - {type: long, name: NumberOfEmployees}
+    - {type: string, name: OwnerId}
+    - {type: boolean, name: IsConverted}
+    - {type: timestamp, name: ConvertedDate, format: '%F'}
+    - {type: string, name: ConvertedAccountId}
+    - {type: string, name: ConvertedContactId}
+    - {type: string, name: ConvertedOpportunityId}
+    - {type: boolean, name: IsUnreadByOwner}
+    - {type: timestamp, name: CreatedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: CreatedById}
+    - {type: timestamp, name: LastModifiedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: LastModifiedById}
+    - {type: timestamp, name: SystemModstamp, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: LastActivityDate, format: '%F'}
+    - {type: timestamp, name: LastViewedDate, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: LastReferencedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: Jigsaw}
+    - {type: string, name: JigsawContactId}
+    - {type: string, name: CleanStatus}
+    - {type: string, name: CompanyDunsNumber}
+    - {type: string, name: DandbCompanyId}
+    - {type: string, name: EmailBouncedReason}
+    - {type: timestamp, name: EmailBouncedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: SICCode__c}
+    - {type: string, name: ProductInterest__c}
+    - {type: string, name: Primary__c}
+    - {type: string, name: CurrentGenerators__c}
+    - {type: double, name: NumberofLocations__c}
+  startRowMarkerName: LastModifiedDate
+out:
+  type: postgresql
+  host: postgres
+  user: {{ env.POSTGRES_USER }}
+  password: {{ env.POSTGRES_PASSWORD }}
+  database: postgres
+  schema: salesforce
+  table: lead
+  mode: merge
+  merge_keys:
+    - Id

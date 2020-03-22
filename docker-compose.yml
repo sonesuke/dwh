@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+  tools:
+    build:
+      context: dockerfile/tools
+    environment:
+      - SALESFORCE_USER=${SALESFORCE_USER}
+      - SALESFORCE_PASSWORD=${SALESFORCE_PASSWORD}
+      - SALESFORCE_TOKEN=${SALESFORCE_TOKEN}
+    volumes:
+    - ./:/host
+    command: ['python', '/host/src/tools/generate.py']
+
+  dbt:
+    build:
+      context: dockerfile/dbt
+    volumes:
+      - ./:/host
+      - ./profile:/root/.dbt
+
+  postgres:
+    image: postgres:12.2-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    ports:
+      - 5455:5432
+
+volumes:
+  dbdata:

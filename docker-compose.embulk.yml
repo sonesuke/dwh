@@ -1,0 +1,82 @@
+version: '3'
+
+services:
+  
+  embulk-account:
+    build:
+      context: dockerfile/embulk
+    environment:
+      - SALESFORCE_USER=${SALESFORCE_USER}
+      - SALESFORCE_PASSWORD=${SALESFORCE_PASSWORD}
+      - SALESFORCE_TOKEN=${SALESFORCE_TOKEN}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./:/host
+    command: ['run', '/host/src/embulk/salesforce/account.yml.liquid', '-c', '/host/src/embulk/salesforce/diff/account.diff.yml']
+  
+  embulk-contact:
+    build:
+      context: dockerfile/embulk
+    environment:
+      - SALESFORCE_USER=${SALESFORCE_USER}
+      - SALESFORCE_PASSWORD=${SALESFORCE_PASSWORD}
+      - SALESFORCE_TOKEN=${SALESFORCE_TOKEN}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./:/host
+    command: ['run', '/host/src/embulk/salesforce/contact.yml.liquid', '-c', '/host/src/embulk/salesforce/diff/contact.diff.yml']
+  
+  embulk-lead:
+    build:
+      context: dockerfile/embulk
+    environment:
+      - SALESFORCE_USER=${SALESFORCE_USER}
+      - SALESFORCE_PASSWORD=${SALESFORCE_PASSWORD}
+      - SALESFORCE_TOKEN=${SALESFORCE_TOKEN}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./:/host
+    command: ['run', '/host/src/embulk/salesforce/lead.yml.liquid', '-c', '/host/src/embulk/salesforce/diff/lead.diff.yml']
+  
+  embulk-opportunity:
+    build:
+      context: dockerfile/embulk
+    environment:
+      - SALESFORCE_USER=${SALESFORCE_USER}
+      - SALESFORCE_PASSWORD=${SALESFORCE_PASSWORD}
+      - SALESFORCE_TOKEN=${SALESFORCE_TOKEN}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./:/host
+    command: ['run', '/host/src/embulk/salesforce/opportunity.yml.liquid', '-c', '/host/src/embulk/salesforce/diff/opportunity.diff.yml']
+  
+  embulk-event:
+    build:
+      context: dockerfile/embulk
+    environment:
+      - SALESFORCE_USER=${SALESFORCE_USER}
+      - SALESFORCE_PASSWORD=${SALESFORCE_PASSWORD}
+      - SALESFORCE_TOKEN=${SALESFORCE_TOKEN}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./:/host
+    command: ['run', '/host/src/embulk/salesforce/event.yml.liquid', '-c', '/host/src/embulk/salesforce/diff/event.diff.yml']
+  
+  embulk-task:
+    build:
+      context: dockerfile/embulk
+    environment:
+      - SALESFORCE_USER=${SALESFORCE_USER}
+      - SALESFORCE_PASSWORD=${SALESFORCE_PASSWORD}
+      - SALESFORCE_TOKEN=${SALESFORCE_TOKEN}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./:/host
+    command: ['run', '/host/src/embulk/salesforce/task.yml.liquid', '-c', '/host/src/embulk/salesforce/diff/task.diff.yml']
+  

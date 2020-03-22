@@ -1,0 +1,79 @@
+in:
+  type: salesforce_bulk
+  userName: {{ env.SALESFORCE_USER }}
+  password: {{ env.SALESFORCE_PASSWORD }}{{ env.SALESFORCE_TOKEN }}
+  authEndpointUrl: https://login.salesforce.com/services/Soap/u/39.0
+  objectType: Contact
+  pollingIntervalMillisecond: 5000
+  querySelectFrom: SELECT Id,IsDeleted,MasterRecordId,AccountId,LastName,FirstName,Salutation,Name,OtherStreet,OtherCity,OtherState,OtherPostalCode,OtherCountry,OtherLatitude,OtherLongitude,OtherGeocodeAccuracy,MailingStreet,MailingCity,MailingState,MailingPostalCode,MailingCountry,MailingLatitude,MailingLongitude,MailingGeocodeAccuracy,Phone,Fax,MobilePhone,HomePhone,OtherPhone,AssistantPhone,ReportsToId,Email,Title,Department,AssistantName,LeadSource,Birthdate,Description,OwnerId,CreatedDate,CreatedById,LastModifiedDate,LastModifiedById,SystemModstamp,LastActivityDate,LastCURequestDate,LastCUUpdateDate,LastViewedDate,LastReferencedDate,EmailBouncedReason,EmailBouncedDate,IsEmailBounced,PhotoUrl,Jigsaw,JigsawContactId,CleanStatus,Level__c,Languages__c FROM Contact
+  columns:
+    - {type: string, name: Id}
+    - {type: boolean, name: IsDeleted}
+    - {type: string, name: MasterRecordId}
+    - {type: string, name: AccountId}
+    - {type: string, name: LastName}
+    - {type: string, name: FirstName}
+    - {type: string, name: Salutation}
+    - {type: string, name: Name}
+    - {type: string, name: OtherStreet}
+    - {type: string, name: OtherCity}
+    - {type: string, name: OtherState}
+    - {type: string, name: OtherPostalCode}
+    - {type: string, name: OtherCountry}
+    - {type: double, name: OtherLatitude}
+    - {type: double, name: OtherLongitude}
+    - {type: string, name: OtherGeocodeAccuracy}
+    - {type: string, name: MailingStreet}
+    - {type: string, name: MailingCity}
+    - {type: string, name: MailingState}
+    - {type: string, name: MailingPostalCode}
+    - {type: string, name: MailingCountry}
+    - {type: double, name: MailingLatitude}
+    - {type: double, name: MailingLongitude}
+    - {type: string, name: MailingGeocodeAccuracy}
+    - {type: string, name: Phone}
+    - {type: string, name: Fax}
+    - {type: string, name: MobilePhone}
+    - {type: string, name: HomePhone}
+    - {type: string, name: OtherPhone}
+    - {type: string, name: AssistantPhone}
+    - {type: string, name: ReportsToId}
+    - {type: string, name: Email}
+    - {type: string, name: Title}
+    - {type: string, name: Department}
+    - {type: string, name: AssistantName}
+    - {type: string, name: LeadSource}
+    - {type: timestamp, name: Birthdate, format: '%F'}
+    - {type: string, name: Description}
+    - {type: string, name: OwnerId}
+    - {type: timestamp, name: CreatedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: CreatedById}
+    - {type: timestamp, name: LastModifiedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: LastModifiedById}
+    - {type: timestamp, name: SystemModstamp, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: LastActivityDate, format: '%F'}
+    - {type: timestamp, name: LastCURequestDate, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: LastCUUpdateDate, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: LastViewedDate, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: LastReferencedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: EmailBouncedReason}
+    - {type: timestamp, name: EmailBouncedDate, format: '%FT%T.%L%Z'}
+    - {type: boolean, name: IsEmailBounced}
+    - {type: string, name: PhotoUrl}
+    - {type: string, name: Jigsaw}
+    - {type: string, name: JigsawContactId}
+    - {type: string, name: CleanStatus}
+    - {type: string, name: Level__c}
+    - {type: string, name: Languages__c}
+  startRowMarkerName: LastModifiedDate
+out:
+  type: postgresql
+  host: postgres
+  user: {{ env.POSTGRES_USER }}
+  password: {{ env.POSTGRES_PASSWORD }}
+  database: postgres
+  schema: salesforce
+  table: contact
+  mode: merge
+  merge_keys:
+    - Id

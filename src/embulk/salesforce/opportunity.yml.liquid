@@ -1,0 +1,62 @@
+in:
+  type: salesforce_bulk
+  userName: {{ env.SALESFORCE_USER }}
+  password: {{ env.SALESFORCE_PASSWORD }}{{ env.SALESFORCE_TOKEN }}
+  authEndpointUrl: https://login.salesforce.com/services/Soap/u/39.0
+  objectType: Opportunity
+  pollingIntervalMillisecond: 5000
+  querySelectFrom: SELECT Id,IsDeleted,AccountId,IsPrivate,Name,Description,StageName,Amount,Probability,ExpectedRevenue,TotalOpportunityQuantity,CloseDate,Type,NextStep,LeadSource,IsClosed,IsWon,ForecastCategory,ForecastCategoryName,CampaignId,HasOpportunityLineItem,Pricebook2Id,OwnerId,CreatedDate,CreatedById,LastModifiedDate,LastModifiedById,SystemModstamp,LastActivityDate,FiscalQuarter,FiscalYear,Fiscal,LastViewedDate,LastReferencedDate,HasOpenActivity,HasOverdueTask,DeliveryInstallationStatus__c,TrackingNumber__c,OrderNumber__c,CurrentGenerators__c,MainCompetitors__c FROM Opportunity
+  columns:
+    - {type: string, name: Id}
+    - {type: boolean, name: IsDeleted}
+    - {type: string, name: AccountId}
+    - {type: boolean, name: IsPrivate}
+    - {type: string, name: Name}
+    - {type: string, name: Description}
+    - {type: string, name: StageName}
+    - {type: string, name: Amount}
+    - {type: double, name: Probability}
+    - {type: string, name: ExpectedRevenue}
+    - {type: double, name: TotalOpportunityQuantity}
+    - {type: timestamp, name: CloseDate, format: '%F'}
+    - {type: string, name: Type}
+    - {type: string, name: NextStep}
+    - {type: string, name: LeadSource}
+    - {type: boolean, name: IsClosed}
+    - {type: boolean, name: IsWon}
+    - {type: string, name: ForecastCategory}
+    - {type: string, name: ForecastCategoryName}
+    - {type: string, name: CampaignId}
+    - {type: boolean, name: HasOpportunityLineItem}
+    - {type: string, name: Pricebook2Id}
+    - {type: string, name: OwnerId}
+    - {type: timestamp, name: CreatedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: CreatedById}
+    - {type: timestamp, name: LastModifiedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: LastModifiedById}
+    - {type: timestamp, name: SystemModstamp, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: LastActivityDate, format: '%F'}
+    - {type: long, name: FiscalQuarter}
+    - {type: long, name: FiscalYear}
+    - {type: string, name: Fiscal}
+    - {type: timestamp, name: LastViewedDate, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: LastReferencedDate, format: '%FT%T.%L%Z'}
+    - {type: boolean, name: HasOpenActivity}
+    - {type: boolean, name: HasOverdueTask}
+    - {type: string, name: DeliveryInstallationStatus__c}
+    - {type: string, name: TrackingNumber__c}
+    - {type: string, name: OrderNumber__c}
+    - {type: string, name: CurrentGenerators__c}
+    - {type: string, name: MainCompetitors__c}
+  startRowMarkerName: LastModifiedDate
+out:
+  type: postgresql
+  host: postgres
+  user: {{ env.POSTGRES_USER }}
+  password: {{ env.POSTGRES_PASSWORD }}
+  database: postgres
+  schema: salesforce
+  table: opportunity
+  mode: merge
+  merge_keys:
+    - Id

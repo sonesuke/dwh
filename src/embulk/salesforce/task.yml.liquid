@@ -1,0 +1,59 @@
+in:
+  type: salesforce_bulk
+  userName: {{ env.SALESFORCE_USER }}
+  password: {{ env.SALESFORCE_PASSWORD }}{{ env.SALESFORCE_TOKEN }}
+  authEndpointUrl: https://login.salesforce.com/services/Soap/u/39.0
+  objectType: Task
+  pollingIntervalMillisecond: 5000
+  querySelectFrom: SELECT Id,WhoId,WhatId,Subject,ActivityDate,Status,Priority,IsHighPriority,OwnerId,Description,IsDeleted,AccountId,IsClosed,CreatedDate,CreatedById,LastModifiedDate,LastModifiedById,SystemModstamp,IsArchived,CallDurationInSeconds,CallType,CallDisposition,CallObject,ReminderDateTime,IsReminderSet,RecurrenceActivityId,IsRecurrence,RecurrenceStartDateOnly,RecurrenceEndDateOnly,RecurrenceTimeZoneSidKey,RecurrenceType,RecurrenceInterval,RecurrenceDayOfWeekMask,RecurrenceDayOfMonth,RecurrenceInstance,RecurrenceMonthOfYear,RecurrenceRegeneratedType,TaskSubtype FROM Task
+  columns:
+    - {type: string, name: Id}
+    - {type: string, name: WhoId}
+    - {type: string, name: WhatId}
+    - {type: string, name: Subject}
+    - {type: timestamp, name: ActivityDate, format: '%F'}
+    - {type: string, name: Status}
+    - {type: string, name: Priority}
+    - {type: boolean, name: IsHighPriority}
+    - {type: string, name: OwnerId}
+    - {type: string, name: Description}
+    - {type: boolean, name: IsDeleted}
+    - {type: string, name: AccountId}
+    - {type: boolean, name: IsClosed}
+    - {type: timestamp, name: CreatedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: CreatedById}
+    - {type: timestamp, name: LastModifiedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: LastModifiedById}
+    - {type: timestamp, name: SystemModstamp, format: '%FT%T.%L%Z'}
+    - {type: boolean, name: IsArchived}
+    - {type: long, name: CallDurationInSeconds}
+    - {type: string, name: CallType}
+    - {type: string, name: CallDisposition}
+    - {type: string, name: CallObject}
+    - {type: timestamp, name: ReminderDateTime, format: '%FT%T.%L%Z'}
+    - {type: boolean, name: IsReminderSet}
+    - {type: string, name: RecurrenceActivityId}
+    - {type: boolean, name: IsRecurrence}
+    - {type: timestamp, name: RecurrenceStartDateOnly, format: '%F'}
+    - {type: timestamp, name: RecurrenceEndDateOnly, format: '%F'}
+    - {type: string, name: RecurrenceTimeZoneSidKey}
+    - {type: string, name: RecurrenceType}
+    - {type: long, name: RecurrenceInterval}
+    - {type: long, name: RecurrenceDayOfWeekMask}
+    - {type: long, name: RecurrenceDayOfMonth}
+    - {type: string, name: RecurrenceInstance}
+    - {type: string, name: RecurrenceMonthOfYear}
+    - {type: string, name: RecurrenceRegeneratedType}
+    - {type: string, name: TaskSubtype}
+  startRowMarkerName: LastModifiedDate
+out:
+  type: postgresql
+  host: postgres
+  user: {{ env.POSTGRES_USER }}
+  password: {{ env.POSTGRES_PASSWORD }}
+  database: postgres
+  schema: salesforce
+  table: task
+  mode: merge
+  merge_keys:
+    - Id

@@ -1,0 +1,61 @@
+in:
+  type: salesforce_bulk
+  userName: {{ env.SALESFORCE_USER }}
+  password: {{ env.SALESFORCE_PASSWORD }}{{ env.SALESFORCE_TOKEN }}
+  authEndpointUrl: https://login.salesforce.com/services/Soap/u/39.0
+  objectType: Event
+  pollingIntervalMillisecond: 5000
+  querySelectFrom: SELECT Id,WhoId,WhatId,Subject,Location,IsAllDayEvent,ActivityDateTime,ActivityDate,DurationInMinutes,StartDateTime,EndDateTime,Description,AccountId,OwnerId,IsPrivate,ShowAs,IsDeleted,IsChild,IsGroupEvent,GroupEventType,CreatedDate,CreatedById,LastModifiedDate,LastModifiedById,SystemModstamp,IsArchived,RecurrenceActivityId,IsRecurrence,RecurrenceStartDateTime,RecurrenceEndDateOnly,RecurrenceTimeZoneSidKey,RecurrenceType,RecurrenceInterval,RecurrenceDayOfWeekMask,RecurrenceDayOfMonth,RecurrenceInstance,RecurrenceMonthOfYear,ReminderDateTime,IsReminderSet,EventSubtype FROM Event
+  columns:
+    - {type: string, name: Id}
+    - {type: string, name: WhoId}
+    - {type: string, name: WhatId}
+    - {type: string, name: Subject}
+    - {type: string, name: Location}
+    - {type: boolean, name: IsAllDayEvent}
+    - {type: timestamp, name: ActivityDateTime, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: ActivityDate, format: '%F'}
+    - {type: long, name: DurationInMinutes}
+    - {type: timestamp, name: StartDateTime, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: EndDateTime, format: '%FT%T.%L%Z'}
+    - {type: string, name: Description}
+    - {type: string, name: AccountId}
+    - {type: string, name: OwnerId}
+    - {type: boolean, name: IsPrivate}
+    - {type: string, name: ShowAs}
+    - {type: boolean, name: IsDeleted}
+    - {type: boolean, name: IsChild}
+    - {type: boolean, name: IsGroupEvent}
+    - {type: string, name: GroupEventType}
+    - {type: timestamp, name: CreatedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: CreatedById}
+    - {type: timestamp, name: LastModifiedDate, format: '%FT%T.%L%Z'}
+    - {type: string, name: LastModifiedById}
+    - {type: timestamp, name: SystemModstamp, format: '%FT%T.%L%Z'}
+    - {type: boolean, name: IsArchived}
+    - {type: string, name: RecurrenceActivityId}
+    - {type: boolean, name: IsRecurrence}
+    - {type: timestamp, name: RecurrenceStartDateTime, format: '%FT%T.%L%Z'}
+    - {type: timestamp, name: RecurrenceEndDateOnly, format: '%F'}
+    - {type: string, name: RecurrenceTimeZoneSidKey}
+    - {type: string, name: RecurrenceType}
+    - {type: long, name: RecurrenceInterval}
+    - {type: long, name: RecurrenceDayOfWeekMask}
+    - {type: long, name: RecurrenceDayOfMonth}
+    - {type: string, name: RecurrenceInstance}
+    - {type: string, name: RecurrenceMonthOfYear}
+    - {type: timestamp, name: ReminderDateTime, format: '%FT%T.%L%Z'}
+    - {type: boolean, name: IsReminderSet}
+    - {type: string, name: EventSubtype}
+  startRowMarkerName: LastModifiedDate
+out:
+  type: postgresql
+  host: postgres
+  user: {{ env.POSTGRES_USER }}
+  password: {{ env.POSTGRES_PASSWORD }}
+  database: postgres
+  schema: salesforce
+  table: event
+  mode: merge
+  merge_keys:
+    - Id

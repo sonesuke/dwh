@@ -1,0 +1,13 @@
+dwh:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: postgres
+      user: postgres
+      pass: example
+      port: 5432
+      dbname: postgres
+      schema: dev
+      threads: 1
+      keepalives_idle: 0 # default 0, indicating the system default
