@@ -14,5 +14,4 @@ RUN wget https://github.com/sharkdp/bat/releases/download/v0.12.1/bat-musl_0.12.
     && apt-get update \
     && apt-get install -y less
 
-
 RUN pip install dbt

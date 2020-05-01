@@ -1,32 +1,19 @@
 in:
   type: salesforce_bulk
-{%- raw %}
   userName: {{ env.SALESFORCE_USER }}
   password: {{ env.SALESFORCE_PASSWORD }}{{ env.SALESFORCE_TOKEN }}
-{%- endraw %}
   authEndpointUrl: https://login.salesforce.com/services/Soap/u/39.0
-  objectType: {{ table | capitalize }}
+  objectType: {{ env.SALESFORCE_SOBJECT }}
   pollingIntervalMillisecond: 5000
-  querySelectFrom: SELECT {{ fields.keys() | join(',') }} FROM {{ table | capitalize }}
-  columns:
-  {%- for name, embulk in fields.items() %}
-    - {type: {{ embulk['type'] }}, name: {{ name }}
-    {%- if embulk['format'] -%}
-    , format: '{{ embulk['format'] }}'
-    {%- endif -%}
-    }
-  {%- endfor %}
   startRowMarkerName: LastModifiedDate
 out:
   type: postgresql
   host: postgres
-{%- raw %}
   user: {{ env.POSTGRES_USER }}
   password: {{ env.POSTGRES_PASSWORD }}
-{%- endraw %}
   database: postgres
-  schema: salesforce
-  table: {{ table | lower }}
+  schema: source
+  table: {{ env.POSTGRES_TABLE }}
   mode: merge
   merge_keys:
     - Id

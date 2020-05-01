@@ -2,16 +2,17 @@ version: '3'
 
 services:
 
-  tools:
+  source:
     build:
-      context: dockerfile/tools
+      context: dockerfile/build-source
     environment:
       - SALESFORCE_USER=${SALESFORCE_USER}
       - SALESFORCE_PASSWORD=${SALESFORCE_PASSWORD}
       - SALESFORCE_TOKEN=${SALESFORCE_TOKEN}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-    - ./:/host
-    command: ['python', '/host/src/tools/generate.py']
+      - ./src/build-sorce/salesforce:/work
 
   dbt:
     build:

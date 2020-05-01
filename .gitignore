@@ -1,5 +1,5 @@
 .env
 .idea
 *.iml
-*.diff.yaml
+*.diff.yml
 .user.yml
